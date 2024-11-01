@@ -1,107 +1,62 @@
-/*import { Pressable, StyleSheet } from 'react-native';
-import React, { useEffect } from 'react';
-import { icon } from './constants/icon';
-import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
-
-const TabBarButton = ({
-  onPress,
-  onLongPress,
-  routeName,
-  isFocused,
-  label,
-}) => {
-  const scale = useSharedValue(0);
-
-  useEffect(() => {
-    scale.value = isFocused ? 1 : 0;
-  }, [isFocused]);
-
-  const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [0, 2]); // Ajustez si nécessaire
-
-    return {
-      transform: [{
-        scale: scaleValue,
-      }],
-    };
-  });
-
-  const animatedTextStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(scale.value, [0, 1], [0, 1]);
-    return {
-      opacity,
-    };
-  });
-
-  return (
-    <Pressable
-      onPress={onPress}
-      onLongPress={onLongPress}
-      style={styles.tabBarItem}
-    >
-      <Animated.View style={[animatedIconStyle, styles.iconContainer]}>
-        {icon[routeName]({
-          color: isFocused ? "#673ab7" : "#222",
-        })}
-      </Animated.View>
-     
-      <Animated.Text style={[{ color: isFocused ? '#673ab7' : '#222', fontSize: 12 }, animatedTextStyle]}>
-        {label}
-      </Animated.Text>
-    </Pressable>
-  );
-};
-
-const styles = StyleSheet.create({
-  tabBarItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconContainer: {
-    marginBottom: 2, // Ajoutez un margin pour séparer l'icône du label
-  },
-});
-
-export default TabBarButton;*/
-
 import { Pressable, StyleSheet, Text } from 'react-native';
 import React, { useEffect } from 'react';
 import { icon } from './constants/icon';
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 const TabBarButton = ({
-  onPress,
-  onLongPress,
-  routeName,
-  isFocused,
-  label,
+    onPress,       // Fonction appelée lors de l'appui sur le bouton
+    onLongPress,   // Fonction appelée lors d'un appui long sur le bouton
+    routeName,     // Nom de la route pour l'icône associée à ce bouton
+    isFocused,     // Booléen indiquant si ce bouton est actuellement sélectionné
+    label,         // Texte à afficher sous l'icône du bouton
 }) => {
-  const scale = useSharedValue(1); // Commencer à 1 pour qu'il soit toujours visible
+  // Initialisation d'une valeur partagée pour l'animation de l'échelle du bouton
+const scale = useSharedValue(1); // Commence à 1, représentant une taille normale
 
-  useEffect(() => {
-    scale.value = isFocused ? 1.2 : 1; // Agrandir l'onglet au lieu de le faire disparaître
-  }, [isFocused]);
+// Effet qui s'exécute à chaque changement de l'état de focus du bouton
+useEffect(() => {
+  // Modifie la valeur de scale en fonction de l'état de focus
+  // Si le bouton est focalisé, l'échelle devient 1.2 (agrandie)
+  // Sinon, elle revient à 1 (taille normale)
+  scale.value = isFocused ? 1.2 : 1; 
+}, [isFocused]); // Dépendance à isFocused, l'effet se déclenche lorsqu'il change
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
+// Création d'un style animé basé sur la valeur partagée de l'échelle
+const animatedStyle = useAnimatedStyle(() => ({
+  // Transformation appliquée : mise à l'échelle de l'élément
+  transform: [{ scale: scale.value }], // Utilise la valeur d'échelle actuelle pour l'animation
+}));
+;
 
   return (
-    <Pressable
-      onPress={onPress}
-      onLongPress={onLongPress}
-      style={styles.tabBarItem}
-    >
-      <Animated.View style={animatedStyle}>
-        {icon[routeName]({
-          color: isFocused ? "#673ab7" : "#222",
-        })}
-      </Animated.View>
-      <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
-        {label}
-      </Text>
-    </Pressable>
+    <Pressable /*Gestionnaire d'événement pour un appui simple sur le bouton*/
+    onPress={onPress} 
+    
+    onLongPress={onLongPress}
+    /*Applique les styles définis pour l'élément du TabBar*/
+    style={styles.tabBarItem}
+  >
+    {/* Vue animée qui utilise le style d'animation prédéfini */}
+    <Animated.View style={animatedStyle}>
+      {/* 
+        Récupère et affiche l'icône correspondante au nom de la route, 
+        avec une couleur dépendant de l'état de focus
+      */}
+      {icon[routeName]({
+        color: isFocused ? "#DE3163" : "#222", /*Couleur conditionnelle*/
+      })}
+    </Animated.View>
+    {/* 
+      Texte affiché sous l'icône, 
+      avec une couleur conditionnelle selon l'état de focus
+    */}
+    {/*  Affiche le label associé au bouton */}
+    <Text style={{ color: isFocused ? '#DE3163' : '#222' }}>
+      {label} 
+    </Text>
+    
+  </Pressable>
+  
   );
 };
 
