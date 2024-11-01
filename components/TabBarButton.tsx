@@ -8,7 +8,7 @@ const TabBarButton = ({
     onLongPress,   // Fonction appelée lors d'un appui long sur le bouton
     routeName,     // Nom de la route pour l'icône associée à ce bouton
     isFocused,     // Booléen indiquant si ce bouton est actuellement sélectionné
-    label,         // Texte à afficher sous l'icône du bouton
+    label,         // Texte à afficher sous l'icône du bouton 
 }) => {
   // Initialisation d'une valeur partagée pour l'animation de l'échelle du bouton
 const scale = useSharedValue(1); // Commence à 1, représentant une taille normale
